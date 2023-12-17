@@ -8,9 +8,12 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
-  Image
+  Image,
+  Input,
+  InputLeftElement,
+  InputGroup
 } from '@chakra-ui/react'
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
+import { HamburgerIcon, CloseIcon, SearchIcon } from '@chakra-ui/icons'
 
 interface Props {
   children: React.ReactNode
@@ -30,6 +33,10 @@ const Links = [
     link: '/favourites'
   }
 ]
+
+import {
+  FormEvent
+} from 'react'
 
 const NavLink = (props: Props) => {
   const { children } = props
@@ -78,6 +85,14 @@ export function NavBar() {
               ))}
             </HStack>
           </HStack>
+          <form action="/search">
+            <InputGroup>
+              <InputLeftElement pointerEvents='none'>
+                <SearchIcon color='gray.300' />
+              </InputLeftElement>
+            <Input type='text' name='city' id='city' placeholder='Enter a city ...' size='md' variant='outline' bg='white' borderRadius='20' borderColor='grey'></Input>
+            </InputGroup>
+          </form>
         </Flex>
 
         {isOpen ? (

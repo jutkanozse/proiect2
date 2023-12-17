@@ -27,8 +27,14 @@ import {
   FormEvent
 } from 'react'
 
+import {
+  useSearchParams
+} from 'next/navigation'
+
 export default function Page() {
+  const searchParams = useSearchParams()
   const [data, setData] = useState([])
+  const cityName = searchParams.get('city')
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -43,7 +49,7 @@ export default function Page() {
       <Container maxW='1000'>
         <form onSubmit={onSubmit}>
           <Center>
-            <Input id='name' name='name' variant='flushed' placeholder='Enter a city' size='lg' mt={10} borderColor='#545454' textAlign='center' w={400} />
+            <Input id='name' name='name' value={cityName} variant='flushed' placeholder='Enter a city' size='lg' mt={10} borderColor='#545454' textAlign='center' w={400} />
           </Center>
           <Center>
             <Button type='submit' variant='outline' colorScheme='teal' mt={5} w={200}>Submit</Button>
