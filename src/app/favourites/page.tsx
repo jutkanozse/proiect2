@@ -37,6 +37,7 @@ export default async function Page() {
                   <Th isNumeric>Latitude</Th>
                   <Th isNumeric>Longitude</Th>
                   <Th isNumeric>Elevation</Th>
+                  <Th>Rating</Th>
                 </Tr>
               </Thead>
               <Tbody>
@@ -46,6 +47,7 @@ export default async function Page() {
                   <Td isNumeric>{city.latitude}</Td>
                   <Td isNumeric>{city.longitude}</Td>
                   <Td isNumeric>{city.elevation}</Td>
+                  <Td>{'⭐'.repeat(city.rating)}</Td>
                 </Tr>)}
               </Tbody>
               <Tfoot>
@@ -54,6 +56,7 @@ export default async function Page() {
                   <Th isNumeric>Latitude</Th>
                   <Th isNumeric>Longitude</Th>
                   <Th isNumeric>Elevation</Th>
+                  <Th>Rating</Th>
                 </Tr>
               </Tfoot>
             </Table>

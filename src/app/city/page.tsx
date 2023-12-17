@@ -6,7 +6,9 @@ import {
   ListItem,
   ListIcon,
   Center,
-  Button
+  Button,
+  Select,
+  Textarea 
 } from '@chakra-ui/react'
 
 
@@ -25,15 +27,19 @@ import {
 
 import {
   createCity,
-  deleteCity
+  deleteCity,
+  rateCity
 } from './actions'
 
 export default function Page() {
   const searchParams = useSearchParams()
   const [data, setData] = useState({})
   const [extraData, setExtraData] = useState({})
+  const [rating, setRating] = useState(0)
+  const [ratingDescription, setRatingDescription] = useState(null)
   const createCityFunc = createCity.bind(null)
   const deleteCityFunc = deleteCity.bind(null)
+  const rateCityFunc = rateCity.bind(null)
   const cityId = searchParams.get('id')
 
   useEffect(() => {
@@ -49,9 +55,19 @@ export default function Page() {
       .then((res) => res.json())
       .then((data) => {
         setExtraData(data.current)
-        console.log(data)
       })
   }, [])
+ 
+  if (cityId){
+    useEffect(() => {
+      fetch(`/api/city?id=${cityId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setRating(data.rating)
+          setRatingDescription(data.ratingDescription)
+        })
+    }, [])
+  }
 
   return (
     <>
@@ -94,10 +110,32 @@ export default function Page() {
         </Center>
         <Center mt={10}>
           {cityId ? 
-            <form action={deleteCityFunc}>
-            <input type="hidden" id="id" name="id" value={cityId}></input>
-              <Button colorScheme='pink' variant='outline' type='submit'>Delete</Button>
-            </form>
+            <div>
+              <form action={rateCityFunc}>
+                <input type="hidden" id="id" name="id" value={cityId}></input>
+                <Select name='rating' id='rating' placeholder='Select rating ...'>
+                  {rating == 1 ? <option value='1' selected>⭐</option> : <option value='1'>⭐</option>}
+                  {rating == 2 ? <option value='2' selected>⭐⭐</option> : <option value='2'>⭐⭐</option>}
+                  {rating == 3 ? <option value='3' selected>⭐⭐⭐</option> : <option value='3'>⭐⭐⭐</option>}
+                  {rating == 4 ? <option value='4' selected>⭐⭐⭐⭐</option> : <option value='4'>⭐⭐⭐⭐</option>}
+                  {rating == 5 ? <option value='5' selected>⭐⭐⭐⭐⭐</option> : <option value='5'>⭐⭐⭐⭐⭐</option>}
+                </Select>
+                <br></br>
+                <Textarea id='ratingDescription' name='ratingDescription' placeholder='Rating description ...' value={ratingDescription}/>
+                <br></br>
+                <br></br>
+                <Center>
+                  <Button colorScheme='teal' variant='outline' type='submit'>Rate</Button>
+                </Center>
+              </form>
+              <br></br>
+              <form action={deleteCityFunc}>
+                <input type="hidden" id="id" name="id" value={cityId}></input>
+                <Center>
+                  <Button colorScheme='pink' variant='outline' type='submit'>Delete</Button>
+                </Center>
+              </form>
+            </div>
           :
             <form action={createCityFunc}>
               <input type="hidden" id="name" name="name" value={data.name}></input>

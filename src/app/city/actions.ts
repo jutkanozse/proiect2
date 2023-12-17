@@ -22,3 +22,17 @@ export async function deleteCity(data: FormData) {
   await prisma.city.delete({where: {id: data.get('id')}})
   redirect('/favourites')
 }
+
+export async function rateCity(data: FormData) {
+  await prisma.city.update({
+    where: {
+      id: data.get('id')
+    },
+    data: {
+      rating: parseInt(data.get('rating')),
+      ratingDescription: data.get('ratingDescription')
+    }
+  })
+
+  redirect('/favourites')
+}

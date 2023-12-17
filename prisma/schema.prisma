@@ -13,7 +13,9 @@ datasource db {
 model City {
   id          String      @id @default(auto()) @map("_id") @db.ObjectId
   name        String
-  latitude    String
-  longitude   String
-  elevation   String
+  latitude    String?
+  longitude   String?
+  elevation   String?
+  rating      Int?
+  ratingDescription   String?
 }
